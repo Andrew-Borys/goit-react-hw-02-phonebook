@@ -42,7 +42,6 @@ export class App extends Component {
   };
 
   handleFilterData = event => {
-    // console.log(event);
     this.setState({
       filter: event.currentTarget.value,
     });
@@ -56,23 +55,22 @@ export class App extends Component {
 
   render() {
     const { contacts, filter } = this.state;
-    const fiteredData = contacts.filter(contact =>
+    const fiteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim())
     );
-    console.log(fiteredData);
+    console.log(filter);
+    console.log(fiteredContacts);
+
     return (
       <div>
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.handleSubmitFormData} />
-
         <h2>Contacts</h2>
         <Filter onInputEntry={this.handleFilterData} />
-        {fiteredData.length > 1 && (
-          <ContactList
-            contacts={fiteredData}
-            onDeleteContact={this.handleDeleteContact}
-          />
-        )}
+        <ContactList
+          contacts={fiteredContacts}
+          onDeleteContact={this.handleDeleteContact}
+        />
       </div>
     );
   }

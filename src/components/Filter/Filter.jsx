@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 
 const Filter = ({ onInputEntry }) => {
@@ -17,6 +18,10 @@ const Filter = ({ onInputEntry }) => {
       />
     </label>
   );
+};
+
+Filter.propTypes = {
+  onInputEntry: PropTypes.func.isRequired,
 };
 
 export default Filter;
