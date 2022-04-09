@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { nanoid } from 'nanoid';
 
-const Filter = ({ onInputEntry }) => {
+const Filter = ({ filter, onInputEntry }) => {
   const filterInputId = nanoid();
 
   return (
@@ -10,7 +10,7 @@ const Filter = ({ onInputEntry }) => {
       <input
         id={filterInputId}
         type="text"
-        name="filter"
+        value={filter}
         onChange={onInputEntry}
         pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
@@ -21,6 +21,7 @@ const Filter = ({ onInputEntry }) => {
 };
 
 Filter.propTypes = {
+  filter: PropTypes.string.isRequired,
   onInputEntry: PropTypes.func.isRequired,
 };
 

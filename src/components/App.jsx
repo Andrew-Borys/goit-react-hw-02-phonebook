@@ -3,6 +3,7 @@ import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
 import { nanoid } from 'nanoid';
+import Message from './Message';
 
 export class App extends Component {
   state = {
@@ -20,8 +21,6 @@ export class App extends Component {
   contactId = () => nanoid();
 
   handleSubmitFormData = data => {
-    console.log(data);
-
     if (this.state.contacts.find(contact => contact.name === data.name)) {
       alert(`${data.name} is already in contacts`);
       return;
@@ -41,10 +40,18 @@ export class App extends Component {
     });
   };
 
-  handleFilterData = event => {
+  inputFilterContact = event => {
     this.setState({
       filter: event.currentTarget.value,
     });
+  };
+
+  getFilteredContact = () => {
+    const { contacts, filter } = this.state;
+    const normalizedFilter = filter.toLowerCase().trim();
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().trim().includes(normalizedFilter)
+    );
   };
 
   handleDeleteContact = contactId => {
@@ -54,11 +61,8 @@ export class App extends Component {
   };
 
   render() {
-    const { contacts, filter } = this.state;
-    const fiteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().trim().includes(filter.toLowerCase().trim())
-    );
-    console.log(filter);
+    const { filter } = this.state;
+    const fiteredContacts = this.getFilteredContact();
     console.log(fiteredContacts);
 
     return (
@@ -66,11 +70,19 @@ export class App extends Component {
         <h1>Phonebook</h1>
         <ContactForm onSubmit={this.handleSubmitFormData} />
         <h2>Contacts</h2>
-        <Filter onInputEntry={this.handleFilterData} />
-        <ContactList
+        <Filter filter={filter} onInputEntry={this.inputFilterContact} />
+        {fiteredContacts < 1 ? (
+          <Message text={'The contact was not found ;(((('} />
+        ) : (
+          <ContactList
+            contacts={fiteredContacts}
+            onDeleteContact={this.handleDeleteContact}
+          />
+        )}
+        {/* <ContactList
           contacts={fiteredContacts}
           onDeleteContact={this.handleDeleteContact}
-        />
+        /> */}
       </div>
     );
   }
