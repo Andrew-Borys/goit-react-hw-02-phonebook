@@ -2,8 +2,8 @@ import { Component } from 'react';
 import ContactForm from './ContactForm';
 import ContactList from './ContactList';
 import Filter from './Filter';
-import { nanoid } from 'nanoid';
 import Message from './Message';
+import { nanoid } from 'nanoid';
 
 export class App extends Component {
   state = {
@@ -21,7 +21,11 @@ export class App extends Component {
   contactId = () => nanoid();
 
   handleSubmitFormData = data => {
-    if (this.state.contacts.find(contact => contact.name === data.name)) {
+    if (
+      this.state.contacts.find(
+        contact => contact.name.toLowerCase() === data.name.toLowerCase()
+      )
+    ) {
       alert(`${data.name} is already in contacts`);
       return;
     }
@@ -63,7 +67,6 @@ export class App extends Component {
   render() {
     const { filter } = this.state;
     const fiteredContacts = this.getFilteredContact();
-    console.log(fiteredContacts);
 
     return (
       <div>
@@ -79,10 +82,6 @@ export class App extends Component {
             onDeleteContact={this.handleDeleteContact}
           />
         )}
-        {/* <ContactList
-          contacts={fiteredContacts}
-          onDeleteContact={this.handleDeleteContact}
-        /> */}
       </div>
     );
   }
